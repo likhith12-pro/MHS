@@ -1,0 +1,14 @@
+/* Basic admin dashboard grid and cards */
+.admin-dashboard { padding: 20px; font-family: Arial, sans-serif; }
+.admin-header { margin-bottom: 20px; }
+.admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.panel { background: #fff; border-radius: 6px; padding: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.panel h3 { margin-top: 0; }
+.panel-form { display:flex; gap:8px; margin-bottom: 8px; flex-wrap:wrap; }
+.panel-form input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+.panel-form button { padding: 8px 12px; border-radius: 4px; border: none; background: #007bff; color:#fff; cursor:pointer; }
+.panel-list { display:flex; flex-direction:column; gap:8px; }
+.card { border: 1px solid #eee; border-radius: 4px; padding:8px; background: #fafafa; }
+.card-actions { margin-top: 8px; display:flex; gap:8px; }
+.card-actions button { padding:6px 8px; border-radius:4px; border: none; background:#6c757d; color:#fff; }
+.panel-actions { margin-bottom: 8px; }

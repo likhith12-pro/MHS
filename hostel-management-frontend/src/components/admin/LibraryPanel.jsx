@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import libraryService from '../../services/libraryService';
 
 const LibraryPanel = () => {
@@ -15,10 +15,14 @@ const LibraryPanel = () => {
     <div className="panel">
       <h3>Library</h3>
       <form onSubmit={addBook} className="panel-form">
-        <input placeholder="Title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} required />
-        <input placeholder="Author" value={form.author} onChange={e => setForm({ ...form, author: e.target.value })} />
-        <input placeholder="ISBN" value={form.isbn} onChange={e => setForm({ ...form, isbn: e.target.value })} />
-        <input type="number" min={1} value={form.copies} onChange={e => setForm({ ...form, copies: Number(e.target.value) })} />
+        <div className="form-row">
+          <input placeholder="Book Title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} required />
+          <input placeholder="Author" value={form.author} onChange={e => setForm({ ...form, author: e.target.value })} />
+        </div>
+        <div className="form-row">
+          <input placeholder="ISBN" value={form.isbn} onChange={e => setForm({ ...form, isbn: e.target.value })} />
+          <input type="number" min={1} placeholder="Copies" value={form.copies} onChange={e => setForm({ ...form, copies: Number(e.target.value) })} />
+        </div>
         <button type="submit">Add Book</button>
       </form>
 

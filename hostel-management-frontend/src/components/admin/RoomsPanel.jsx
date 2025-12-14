@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import roomsService from '../../services/roomsService';
 
 const RoomsPanel = () => {
@@ -56,9 +56,11 @@ const RoomsPanel = () => {
     <div className="panel">
       <h3>Rooms</h3>
       <form onSubmit={handleCreate} className="panel-form">
-        <input placeholder="Number" value={form.number} onChange={e => setForm({ ...form, number: e.target.value })} required />
-        <input type="number" min={1} value={form.capacity} onChange={e => setForm({ ...form, capacity: Number(e.target.value) })} required />
-        <input placeholder="Description" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
+        <div className="form-row">
+          <input placeholder="Room Number" value={form.number} onChange={e => setForm({ ...form, number: e.target.value })} required />
+          <input type="number" min={1} placeholder="Capacity" value={form.capacity} onChange={e => setForm({ ...form, capacity: Number(e.target.value) })} required />
+        </div>
+        <input placeholder="Description (optional)" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
         <button type="submit">Add Room</button>
       </form>
 

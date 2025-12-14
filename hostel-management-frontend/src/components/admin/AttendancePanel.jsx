@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import attendanceService from '../../services/attendanceService';
 
 const AttendancePanel = () => {
@@ -21,16 +21,18 @@ const AttendancePanel = () => {
   return (
     <div className="panel">
       <h3>Attendance</h3>
-      <div className="panel-form">
-        <input placeholder="Student User ID" value={userId} onChange={e => setUserId(e.target.value)} />
-        <button onClick={markForUser}>Mark Present</button>
-        <button onClick={fetchUserRecords}>Load Records</button>
-      </div>
+      <form onSubmit={(e) => { e.preventDefault(); markForUser(); }} className="panel-form">
+        <div className="form-row">
+          <input placeholder="Student User ID" value={userId} onChange={e => setUserId(e.target.value)} required />
+          <button type="submit">Mark Present</button>
+        </div>
+        <button type="button" onClick={fetchUserRecords}>Load Records</button>
+      </form>
       <div className="panel-list">
         {records.map(r => (
           <div key={r._id} className="card">
-            <div>{new Date(r.date).toLocaleString()}</div>
-            <div>Status: {r.status}</div>
+            <strong>{new Date(r.date).toLocaleString()}</strong>
+            <div>Status: <span style={{ color: r.status === 'present' ? '#28a745' : '#dc3545' }}>{r.status}</span></div>
             <div>Recorded by: {r.recordedBy?.name || '-'}</div>
           </div>
         ))}

@@ -1,21 +1,42 @@
 import { useState } from 'react';
 import attendanceService from '../../services/attendanceService';
+import usersService from '../../services/usersService';
 
 const AttendancePanel = () => {
   const [userId, setUserId] = useState('');
   const [records, setRecords] = useState([]);
 
   const markForUser = async () => {
-    if (!userId) return alert('Enter user id');
+    if (!userId) return alert('Enter user id or student id');
     try {
-      await attendanceService.markAttendance({ userId, status: 'present' });
+      // If looks like studentId (starts with S), pass as studentId
+      if (String(userId).toUpperCase().startsWith('S')) {
+        await attendanceService.markAttendance({ studentId: userId, status: 'present' });
+      } else {
+        await attendanceService.markAttendance({ userId, status: 'present' });
+      }
       alert('Marked present');
-    } catch (err) { console.error(err); alert('Failed to mark'); }
+    } catch (err) { console.error(err); alert(err?.response?.data?.message || 'Failed to mark'); }
   };
 
   const fetchUserRecords = async () => {
-    if (!userId) return alert('Enter user id');
-    try { const res = await attendanceService.getUserAttendance(userId); setRecords(res); } catch (err) { console.error(err); alert('Failed to load'); }
+    if (!userId) return alert('Enter user id or student id');
+    try {
+      if (String(userId).toUpperCase().startsWith('S')) {
+        // Lookup user by studentId then fetch using usersService (uses API axios and auth header)
+        const users = await usersService.listUsers('student');
+        const u = users.find((x) => x.studentId === userId);
+        if (!u) return alert('Student not found');
+        const res = await attendanceService.getUserAttendance(u._id);
+        setRecords(res || []);
+      } else {
+        const res = await attendanceService.getUserAttendance(userId);
+        setRecords(res || []);
+      }
+    } catch (err) {
+      console.error(err);
+      alert(err?.response?.data?.message || 'Failed to load attendance records');
+    }
   };
 
   return (

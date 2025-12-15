@@ -21,6 +21,7 @@ connectDB(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/hostel_management'
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/rooms', require('./routes/rooms'));
 app.use('/api/lost', require('./routes/lostItems'));
 app.use('/api/attendance', require('./routes/attendance'));

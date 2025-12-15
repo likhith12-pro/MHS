@@ -18,7 +18,7 @@ router.post('/signup', async (req, res) => {
 
     user = new User({ name, email, password: hashed, role: 'student' });
     await user.save();
-    res.status(201).json({ message: 'User registered', user: { id: user._id, name, email, role: user.role } });
+    res.status(201).json({ message: 'User registered', user: { id: user._id, name, email, role: user.role, studentId: user.studentId } });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
@@ -38,7 +38,7 @@ router.post('/register', authenticate, authorizeRoles('admin'), async (req, res)
 
     user = new User({ name, email, password: hashed, role });
     await user.save();
-    res.json({ message: 'User created', user: { id: user._id, name, email, role } });
+    res.json({ message: 'User created', user: { id: user._id, name, email, role, studentId: user.studentId } });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
@@ -56,7 +56,7 @@ router.post('/login', async (req, res) => {
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '12h' });
-    res.json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
+    res.json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role, studentId: user.studentId } });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');

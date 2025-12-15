@@ -7,18 +7,25 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const { login, user } = useAuth();
   const history = useHistory();
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+    setLoading(true);
     try {
       await login(email, password);
       // Redirect based on role
       const u = user || JSON.parse(localStorage.getItem('user'))?.user;
       if (u?.role === 'admin') history.push('/admin');
       else history.push('/student');
-    } catch (error) {
-      console.error('Login failed:', error);
-      alert('Login failed. Please check your credentials.');
+    } catch (err) {
+      console.error('Login failed:', err);
+      // Try to display server-provided message when available
+      const msg = err?.response?.data?.message || 'Login failed. Please check your credentials.';
+      setError(msg);
+      setLoading(false);
     }
   };
 
@@ -31,6 +38,7 @@ const Login = () => {
             <p>Sign in to your account</p>
           </div>
           <form onSubmit={handleSubmit} className="login-form">
+            {error && <div className="error-message">{error}</div>}
             <div className="form-group">
               <label htmlFor="email">Email Address</label>
               <div className="input-wrapper">
@@ -59,7 +67,7 @@ const Login = () => {
                 />
               </div>
             </div>
-            <button type="submit" className="login-btn">Sign In</button>
+            <button type="submit" className="login-btn" disabled={loading}>{loading ? 'Signing in...' : 'Sign In'}</button>
           </form>
           <div className="login-footer">
             <p>Don't have an account? <Link to="/register">Sign up</Link></p>

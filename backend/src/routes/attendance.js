@@ -7,10 +7,16 @@ const { authenticate, authorizeRoles } = require('../middleware/auth');
 // Mark attendance - admin can specify userId, students mark own attendance
 router.post('/mark', authenticate, async (req, res) => {
   try {
-    let { userId, date, status } = req.body;
+    let { userId, studentId, date, status } = req.body;
     if (req.user.role === 'student') {
       // students can only mark their own record
       userId = req.user._id;
+    }
+    // allow admins to pass studentId instead of userId
+    if (!userId && studentId) {
+      const u = await User.findOne({ studentId });
+      if (!u) return res.status(404).json({ message: 'Student not found' });
+      userId = u._id;
     }
     if (!userId) return res.status(400).json({ message: 'userId required' });
     const record = new Attendance({ user: userId, date: date || Date.now(), status, recordedBy: req.user._id });

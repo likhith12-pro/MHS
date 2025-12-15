@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     const loggedUser = await authService.login(email, password);
     setUser(loggedUser.user);
-    history.push('/'); // Redirect to home or dashboard after login
   };
 
   const logout = () => {

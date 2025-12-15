@@ -3,6 +3,7 @@ import DoctorPanel from '../components/admin/DoctorPanel';
 import LibraryPanel from '../components/admin/LibraryPanel';
 import LostFoundPanel from '../components/admin/LostFoundPanel';
 import RoomsPanel from '../components/admin/RoomsPanel';
+import StudentPanel from '../components/admin/StudentPanel';
 import '../styles/admin.css';
 
 const AdminDashboard = () => {
@@ -59,6 +60,9 @@ const AdminDashboard = () => {
         <div className="panel-wrapper">
           <DoctorPanel />
         </div>
+          <div className="panel-wrapper">
+            <StudentPanel />
+          </div>
       </div>
     </div>
   );

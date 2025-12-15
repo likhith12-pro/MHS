@@ -52,6 +52,18 @@ const RoomsPanel = () => {
     } catch (err) { console.error(err); alert('Remove failed'); }
   };
 
+  const handleDeleteRoom = async (roomId) => {
+    if (!window.confirm('Delete this room? This cannot be undone.')) return;
+    try {
+      await roomsService.deleteRoom(roomId);
+      setRooms(prev => prev.filter(r => r._id !== roomId));
+    } catch (err) {
+      console.error(err);
+      const msg = err?.response?.data?.message || 'Failed to delete room';
+      alert(msg);
+    }
+  };
+
   return (
     <div className="panel">
       <h3>Rooms</h3>
@@ -75,6 +87,7 @@ const RoomsPanel = () => {
               <div className="card-actions">
                 <button onClick={() => handleAssign(r._id)}>Assign</button>
                 <button onClick={() => handleRemove(r._id)}>Remove</button>
+                <button onClick={() => handleDeleteRoom(r._id)} style={{ background: '#dc3545' }}>Delete</button>
               </div>
             </div>
           ))}

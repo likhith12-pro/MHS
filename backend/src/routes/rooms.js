@@ -91,4 +91,21 @@ router.post('/:roomId/remove/:userId', authenticate, authorizeRoles('admin'), as
   }
 });
 
+// Delete a room (admin) - disallow if occupants present
+router.delete('/:id', authenticate, authorizeRoles('admin'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const room = await Room.findById(id).populate('occupants');
+    if (!room) return res.status(404).json({ message: 'Room not found' });
+    if (room.occupants && room.occupants.length > 0) {
+      return res.status(400).json({ message: 'Cannot delete room with occupants. Remove occupants first.' });
+    }
+    await Room.deleteOne({ _id: id });
+    res.json({ message: 'Room deleted' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;

@@ -30,6 +30,11 @@ const removeOccupant = async (roomId, userId) => {
   return res.data;
 };
 
+const deleteRoom = async (roomId) => {
+  const res = await API.delete(`/rooms/${roomId}`);
+  return res.data;
+};
+
 export default {
   listRooms,
   listAvailable,
@@ -37,4 +42,5 @@ export default {
   assignRoom,
   assignRoomByBody,
   removeOccupant,
+  deleteRoom,
 };

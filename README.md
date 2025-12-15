@@ -10,7 +10,7 @@
 
 **MHS (Modern Hostel System)** is a full-stack Hostel Management System developed to digitalize and simplify hostel administration processes. The system efficiently manages student records, room allocation, hostel details, and administrative workflows through a secure web-based platform.
 
-This project is developed as a **VTU Final-Year Academic Project** and follows real-world software development practices with a clear separation of frontend and backend.
+This project is developed as a **VTU MINI-PROJECT ** and follows real-world software development practices with a clear separation of frontend and backend.
 
 ---
 

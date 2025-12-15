@@ -17,17 +17,35 @@ if (!process.env.JWT_SECRET) {
 	process.exit(1);
 }
 
-connectDB(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/hostel_management');
+const ensureStartup = async () => {
+	try {
+		// Connect to DB first
+		await connectDB(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/hostel_management');
 
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/rooms', require('./routes/rooms'));
-app.use('/api/lost', require('./routes/lostItems'));
-app.use('/api/attendance', require('./routes/attendance'));
-app.use('/api/library', require('./routes/library'));
-app.use('/api/doctor', require('./routes/doctor'));
+		// Ensure an admin user exists (non-blocking if already present)
+		try {
+			const { ensureAdmin } = require('./utils/ensureAdmin');
+			await ensureAdmin();
+		} catch (err) {
+			console.warn('ensureAdmin failed or not available:', err.message || err);
+		}
 
-app.get('/', (req, res) => res.send('Hostel management API running'));
+		// Routes
+		app.use('/api/auth', require('./routes/auth'));
+		app.use('/api/users', require('./routes/userRoutes'));
+		app.use('/api/rooms', require('./routes/rooms'));
+		app.use('/api/lost', require('./routes/lostItems'));
+		app.use('/api/attendance', require('./routes/attendance'));
+		app.use('/api/library', require('./routes/library'));
+		app.use('/api/doctor', require('./routes/doctor'));
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+		app.get('/', (req, res) => res.send('Hostel management API running'));
+
+		app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+	} catch (err) {
+		console.error('Startup failed', err);
+		process.exit(1);
+	}
+};
+
+ensureStartup();

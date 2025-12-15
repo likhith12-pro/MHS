@@ -20,9 +20,11 @@ const claimItem = async (id) => {
   return res.data;
 };
 
-export default {
+const lostfoundService = {
   listItems,
   createItem,
   markFound,
   claimItem,
 };
+
+export default lostfoundService;

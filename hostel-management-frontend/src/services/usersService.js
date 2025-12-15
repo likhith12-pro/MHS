@@ -17,10 +17,16 @@ const generateStudentId = async (id) => {
   return res.data;
 };
 
+const updateUser = async (id, payload) => {
+  const res = await API.put(`/users/${id}`, payload);
+  return res.data;
+};
+
 const usersService = {
   listUsers,
   deleteUser,
   generateStudentId,
+  updateUser,
 };
 
 export default usersService;

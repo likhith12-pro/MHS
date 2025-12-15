@@ -35,7 +35,7 @@ const deleteRoom = async (roomId) => {
   return res.data;
 };
 
-export default {
+const roomsService = {
   listRooms,
   listAvailable,
   createRoom,
@@ -44,3 +44,5 @@ export default {
   removeOccupant,
   deleteRoom,
 };
+
+export default roomsService;

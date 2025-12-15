@@ -25,8 +25,8 @@ const RoomsPanel = () => {
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      const created = await roomsService.createRoom(form);
-      setRooms(prev => [created, ...prev]);
+      await roomsService.createRoom(form);
+      setRooms(prev => [...prev]);
       setForm({ number: '', capacity: 1, description: '' });
     } catch (err) {
       console.error(err);

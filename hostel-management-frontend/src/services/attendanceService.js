@@ -15,8 +15,10 @@ const getUserAttendance = async (userId) => {
   return res.data;
 };
 
-export default {
+const attendanceService = {
   markAttendance,
   getMyAttendance,
   getUserAttendance,
 };
+
+export default attendanceService;

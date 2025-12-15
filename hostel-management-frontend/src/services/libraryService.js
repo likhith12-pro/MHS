@@ -20,9 +20,11 @@ const returnBook = async (id) => {
   return res.data;
 };
 
-export default {
+const libraryService = {
   addBook,
   listBooks,
   borrowBook,
   returnBook,
 };
+
+export default libraryService;

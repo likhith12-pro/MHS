@@ -20,9 +20,11 @@ const updateStatus = async (id, status) => {
   return res.data;
 };
 
-export default {
+const doctorService = {
   scheduleVisit,
   listVisits,
   myVisits,
   updateStatus,
 };
+
+export default doctorService;
